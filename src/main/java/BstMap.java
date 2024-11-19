@@ -38,7 +38,7 @@ public class BstMap<K extends Comparable<K>, V> {
     /** Removes the given key from the map. */
     public void remove(K key) {
         if (this.root != null) {
-            this.root.remove(key);
+            this.root = this.root.remove(key);
         }
     }
 
@@ -67,12 +67,30 @@ public class BstMap<K extends Comparable<K>, V> {
 
         /** Returns the node with the given key, or null if no such node can be found. */
         public Node<K, V> find(K key) {
-            throw new UnsupportedOperationException("not implemented");
-        }
+            if (this.key.equals(key)) {
+                return this;
+            } else if ((this.key.compareTo(key) > 0) && (this.left != null)){
+                return this.left.find(key);
+            } else if ((this.key.compareTo(key) < 0) && (this.right != null)){
+                return this.right.find(key);
+            } else {
+                return null;
+            } // if/else
+        } // find(K)
 
         /** Inserts the given (key, value) pair into the binary search tree. */
         public void insert(K key, V value) {
-            throw new UnsupportedOperationException("not implemented");
+            if (this.key.equals(key)) {
+                this.value = value;
+            } // if
+
+            Node<K, V> ref = this.key.compareTo(key) > 0 ? this.right : this.left;
+
+            if (ref == null) {
+                ref = new Node<K, V>(key, value);
+            } else {
+                ref.insert(key, value);
+            } // if/else
         }
 
         /**
